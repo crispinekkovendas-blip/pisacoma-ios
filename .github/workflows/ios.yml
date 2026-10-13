@@ -1,0 +1,206 @@
+name: Build iOS
+
+# Every push: XcodeGen → unit tests on a simulator → an unsigned Release build packaged as
+# "Pisacoma-unsigned-<run>.ipa". "Run workflow" by hand adds the XCUITests with screenshots.
+# A v* tag runs the release job: ad-hoc signed when the IOS_* secrets exist (see README «Firmar»).
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SIM: platform=iOS Simulator,name=iPhone 16,OS=latest
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+
+      - name: XcodeGen
+        run: |
+          brew install xcodegen >/dev/null
+          xcodegen generate
+
+      - name: Resolve packages
+        run: xcodebuild -resolvePackageDependencies -project Pisacoma.xcodeproj -scheme Pisacoma -quiet
+
+      - name: Unit tests (simulator)
+        run: |
+          set -o pipefail
+          xcodebuild test -project Pisacoma.xcodeproj -scheme Pisacoma -destination "$SIM" \
+            -only-testing:PisacomaTests CODE_SIGNING_ALLOWED=NO 2>&1 | tee test.log | grep -E "error:|warning: var|Test Case|Executed|Test Suite 'All|BUILD|\*\* TEST" || true
+          grep -qE "\*\* TEST SUCCEEDED \*\*" test.log
+
+      - name: Unsigned IPA
+        run: |
+          set -o pipefail
+          xcodebuild build -project Pisacoma.xcodeproj -scheme Pisacoma -configuration Release -sdk iphoneos \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" 2>&1 | tee build.log | grep -E "error:|BUILD" || true
+          grep -qE "\*\* BUILD SUCCEEDED \*\*" build.log
+          mkdir -p Payload && cp -R build/Build/Products/Release-iphoneos/Pisacoma.app Payload/
+          zip -qr "Pisacoma-unsigned-${{ github.run_number }}.ipa" Payload
+          ls -la *.ipa
+
+      - name: Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_number }}
+          path: |
+            test.log
+            build.log
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Pisacoma-unsigned-${{ github.run_number }}
+          path: Pisacoma-unsigned-${{ github.run_number }}.ipa
+
+  # On demand: the XCUITests on the simulator, with the screenshots the tests attach.
+  ui:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+      - name: XcodeGen
+        run: |
+          brew install xcodegen >/dev/null
+          xcodegen generate
+      - name: UI tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project Pisacoma.xcodeproj -scheme Pisacoma -destination "$SIM" \
+            -only-testing:PisacomaUITests -resultBundlePath ui.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee ui.log | grep -E "error:|Test Case|Executed|BUILD|\*\* TEST" || true
+          grep -qE "\*\* TEST SUCCEEDED \*\*" ui.log || echo "UI TESTS FAILED" > ui-failed.txt
+      - name: Export screenshots
+        if: always()
+        run: |
+          mkdir -p shots
+          # Every attachment the tests saved (XCTAttachment PNGs) comes out of the result bundle.
+          xcrun xcresulttool get --legacy --path ui.xcresult --format json > result.json 2>/dev/null || true
+          python3 tools/export-shots.py ui.xcresult shots || true
+          ls shots | head -50
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-${{ github.run_number }}
+          path: |
+            shots/
+            ui.log
+            ui-failed.txt
+          if-no-files-found: ignore
+      - name: Fail when the UI tests failed
+        run: test ! -f ui-failed.txt
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: macos-15
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+      - name: XcodeGen
+        run: |
+          brew install xcodegen >/dev/null
+          xcodegen generate
+      - name: Signed or unsigned
+        id: mode
+        env:
+          IOS_CERT_P12: ${{ secrets.IOS_CERT_P12 }}
+          IOS_PROFILE: ${{ secrets.IOS_PROFILE }}
+        run: |
+          if [ -n "$IOS_CERT_P12" ] && [ -n "$IOS_PROFILE" ]; then echo "signed=true" >> "$GITHUB_OUTPUT"; else echo "signed=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Import certificate and profile
+        if: steps.mode.outputs.signed == 'true'
+        env:
+          IOS_CERT_P12: ${{ secrets.IOS_CERT_P12 }}
+          IOS_CERT_PASSWORD: ${{ secrets.IOS_CERT_PASSWORD }}
+          IOS_PROFILE: ${{ secrets.IOS_PROFILE }}
+        run: |
+          echo "$IOS_CERT_P12" | base64 -d > "$RUNNER_TEMP/cert.p12"
+          echo "$IOS_PROFILE" | base64 -d > "$RUNNER_TEMP/adhoc.mobileprovision"
+          KEYCHAIN="$RUNNER_TEMP/signing.keychain-db"
+          security create-keychain -p "" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "" "$KEYCHAIN"
+          security import "$RUNNER_TEMP/cert.p12" -P "$IOS_CERT_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN"
+          security set-key-partition-list -S apple-tool:,apple: -k "" "$KEYCHAIN"
+          security list-keychain -d user -s "$KEYCHAIN"
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i "$RUNNER_TEMP/adhoc.mobileprovision")")
+          cp "$RUNNER_TEMP/adhoc.mobileprovision" ~/Library/MobileDevice/Provisioning\ Profiles/"$UUID".mobileprovision
+          NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< "$(security cms -D -i "$RUNNER_TEMP/adhoc.mobileprovision")")
+          echo "PROFILE_NAME=$NAME" >> "$GITHUB_ENV"
+      - name: Archive and export (ad-hoc)
+        if: steps.mode.outputs.signed == 'true'
+        env:
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        run: |
+          set -o pipefail
+          xcodebuild archive -project Pisacoma.xcodeproj -scheme Pisacoma -configuration Release -sdk iphoneos \
+            -archivePath build/Pisacoma.xcarchive \
+            CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$IOS_TEAM_ID" PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
+            CODE_SIGN_IDENTITY="Apple Distribution" 2>&1 | tee archive.log | grep -E "error:|ARCHIVE" || true
+          grep -qE "\*\* ARCHIVE SUCCEEDED \*\*" archive.log
+          cat > ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>ad-hoc</string>
+            <key>teamID</key><string>$IOS_TEAM_ID</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>provisioningProfiles</key><dict><key>pe.pisacoma.iglesia</key><string>$PROFILE_NAME</string></dict>
+            <key>compileBitcode</key><false/>
+            <key>stripSwiftSymbols</key><true/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath build/Pisacoma.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath export 2>&1 | tee export.log | grep -E "error:|EXPORT" || true
+          grep -qE "\*\* EXPORT SUCCEEDED \*\*" export.log
+          cp export/Pisacoma.ipa "Pisacoma-${GITHUB_REF_NAME}.ipa"
+      - name: Unsigned build (no signing secrets)
+        if: steps.mode.outputs.signed == 'false'
+        run: |
+          set -o pipefail
+          xcodebuild build -project Pisacoma.xcodeproj -scheme Pisacoma -configuration Release -sdk iphoneos \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" 2>&1 | tee build.log | grep -E "error:|BUILD" || true
+          grep -qE "\*\* BUILD SUCCEEDED \*\*" build.log
+          mkdir -p Payload && cp -R build/Build/Products/Release-iphoneos/Pisacoma.app Payload/
+          zip -qr "Pisacoma-${GITHUB_REF_NAME}-unsigned.ipa" Payload
+      - name: Install page (gh-pages)
+        if: steps.mode.outputs.signed == 'true'
+        run: |
+          mkdir -p site
+          cp "Pisacoma-${GITHUB_REF_NAME}.ipa" site/Pisacoma.ipa
+          BASE="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          sed -e "s|__IPA__|$BASE/Pisacoma.ipa|; s|__VERSION__|${GITHUB_REF_NAME}|" tools/manifest.plist.template > site/manifest.plist
+          sed -e "s|__MANIFEST__|$BASE/manifest.plist|; s|__VERSION__|${GITHUB_REF_NAME}|" tools/install.html.template > site/index.html
+          touch site/.nojekyll
+          cd site && git init -q -b gh-pages && git add -A && git -c user.name=ci -c user.email=ci@pisacoma -q commit -m "Pisacoma ${GITHUB_REF_NAME}" \
+            && git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" gh-pages
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ steps.mode.outputs.signed }}" = "true" ]; then
+            NOTES="Instalar desde https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/ en un iPhone registrado en el perfil ad hoc."
+          else
+            NOTES="IPA sin firmar (faltan los secretos IOS_*). Ver README «Firmar e instalar»."
+          fi
+          gh release create "$GITHUB_REF_NAME" Pisacoma-*.ipa --title "Pisacoma iOS $GITHUB_REF_NAME" --notes "$NOTES"

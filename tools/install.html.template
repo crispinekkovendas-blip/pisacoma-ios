@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pisacoma — instalar en iPhone</title>
+<style>
+  body { margin: 0; background: #f5f3e6; color: #1f2b1c; font-family: -apple-system, Inter, sans-serif; }
+  main { max-width: 520px; margin: 0 auto; padding: 56px 24px; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #4a6741; }
+  h1 { font-family: Georgia, serif; font-weight: 500; font-size: 34px; line-height: 1.05; letter-spacing: -.02em; color: #16241a; margin: 18px 0 20px; }
+  h1 em { font-style: italic; color: #4a6741; font-weight: 400; }
+  p { font-size: 16px; line-height: 1.6; color: #4d6044; }
+  a.btn { display: block; text-align: center; background: #2c4128; color: #f5f3e6; text-decoration: none; font-weight: 600; padding: 16px; border-radius: 999px; margin: 28px 0 14px; }
+  ol { padding-left: 20px; } li { margin: 6px 0; color: #4d6044; }
+  .foot { margin-top: 40px; font-size: 12px; color: #627253; border-top: 1px solid rgba(74,103,65,.12); padding-top: 18px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">— Pisacoma · __VERSION__</div>
+  <h1>Instalar la app <em>en este iPhone</em></h1>
+  <p>Solo funciona en los iPhone registrados en el perfil de distribución de la iglesia. Abre esta página en Safari del iPhone.</p>
+  <a class="btn" href="itms-services://?action=download-manifest&url=__MANIFEST__">Instalar Pisacoma</a>
+  <ol>
+    <li>Toca «Instalar» y acepta el aviso.</li>
+    <li>Vuelve a la pantalla de inicio: el icono aparece y termina de descargarse.</li>
+    <li>Si dice «No se puede instalar», este iPhone no está en el perfil: pide que registren su UDID.</li>
+  </ol>
+  <div class="foot">Iglesia Adventista del Séptimo Día · Pisacoma, Chucuito, Puno, Perú</div>
+</main>
+</body>
+</html>

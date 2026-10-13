@@ -1,0 +1,101 @@
+name: Pisacoma
+options:
+  bundleIdPrefix: pe.pisacoma
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+packages:
+  Lottie:
+    url: https://github.com/airbnb/lottie-spm.git
+    from: 4.5.0
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    MARKETING_VERSION: "0.1"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+targets:
+  Pisacoma:
+    type: application
+    platform: iOS
+    sources:
+      - path: Pisacoma
+        excludes:
+          - "Content/**"
+          - "Fonts/**"
+          - "Info.plist"
+      # Folder references keep the sub-paths, so `Content/data/biblia/43.json` is the same path as on Android.
+      - path: Pisacoma/Content
+        type: folder
+        buildPhase: resources
+      - path: Pisacoma/Fonts
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - package: Lottie
+    info:
+      path: Pisacoma/Info.plist
+      properties:
+        CFBundleDisplayName: Pisacoma
+        CFBundleName: Pisacoma
+        UILaunchScreen: {}
+        UIBackgroundModes: [audio]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIRequiresFullScreen: false
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoadsInWebContent: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: pe.pisacoma.iglesia
+        PRODUCT_NAME: Pisacoma
+        CODE_SIGN_STYLE: Manual
+        SWIFT_STRICT_CONCURRENCY: minimal
+  PisacomaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: PisacomaTests
+        excludes:
+          - "Content/**"
+      # The downloadable content (the Android repo's content/) so the model tests read the real files.
+      - path: PisacomaTests/Content
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - target: Pisacoma
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: pe.pisacoma.iglesia.tests
+        GENERATE_INFOPLIST_FILE: "YES"
+  PisacomaUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: PisacomaUITests
+    dependencies:
+      - target: Pisacoma
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: pe.pisacoma.iglesia.uitests
+        GENERATE_INFOPLIST_FILE: "YES"
+        TEST_TARGET_NAME: Pisacoma
+schemes:
+  Pisacoma:
+    build:
+      targets:
+        Pisacoma: all
+        PisacomaTests: [test]
+        PisacomaUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - PisacomaTests
+        - PisacomaUITests
+    archive:
+      config: Release
