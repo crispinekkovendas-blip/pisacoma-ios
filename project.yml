@@ -34,6 +34,10 @@ targets:
       - path: Pisacoma/Fonts
         type: folder
         buildPhase: resources
+      # The downloadable content, for the UI tests' `-seedContent` hook; left out of Release builds.
+      - path: TestContent
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: Lottie
     info:
@@ -54,15 +58,16 @@ targets:
         PRODUCT_NAME: Pisacoma
         CODE_SIGN_STYLE: Manual
         SWIFT_STRICT_CONCURRENCY: minimal
+      configs:
+        Release:
+          EXCLUDED_SOURCE_FILE_NAMES: "TestContent"
   PisacomaTests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - path: PisacomaTests
-        excludes:
-          - "Content/**"
-      # The downloadable content (the Android repo's content/) so the model tests read the real files.
-      - path: PisacomaTests/Content
+      # The downloadable content (the Android repo's content/) so the model tests read real files.
+      - path: TestContent
         type: folder
         buildPhase: resources
     dependencies:

@@ -5,7 +5,7 @@ import XCTest
 final class ContentPresentTests: XCTestCase {
     // The unit tests are hosted by the app, so Bundle.main is the app bundle.
     private var app: URL { Bundle.main.resourceURL!.appendingPathComponent("Content") }
-    private var tests: URL { Bundle(for: ContentPresentTests.self).resourceURL!.appendingPathComponent("Content") }
+    private var tests: URL { Bundle(for: ContentPresentTests.self).resourceURL!.appendingPathComponent("TestContent") }
 
     private func assertAtLeast(_ url: URL, _ bytes: Int, file: StaticString = #filePath, line: UInt = #line) {
         let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int) ?? -1

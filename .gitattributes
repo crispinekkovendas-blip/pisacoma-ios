@@ -1,0 +1,9 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.ttf binary
+*.jpg binary
+*.png binary
+*.p12 binary
+# The content folders are stored verbatim: the byte counts in manifest.json are the bytes the phones download.
+Pisacoma/Content/** -text
+TestContent/** -text

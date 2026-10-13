@@ -1,0 +1,490 @@
+{
+ "generated": "2026-10-13T20:38:00.559Z",
+ "files": [
+  {
+   "path": "data/biblia/1.json",
+   "bytes": 190085,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/10.json",
+   "bytes": 102958,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/11.json",
+   "bytes": 122481,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/12.json",
+   "bytes": 116314,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/13.json",
+   "bytes": 104986,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/14.json",
+   "bytes": 135199,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/15.json",
+   "bytes": 38486,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/16.json",
+   "bytes": 54851,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/17.json",
+   "bytes": 28990,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/18.json",
+   "bytes": 92409,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/19.json",
+   "bytes": 217860,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/2.json",
+   "bytes": 158868,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/20.json",
+   "bytes": 79296,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/21.json",
+   "bytes": 28294,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/22.json",
+   "bytes": 13631,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/23.json",
+   "bytes": 183269,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/24.json",
+   "bytes": 212094,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/25.json",
+   "bytes": 17415,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/26.json",
+   "bytes": 192775,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/27.json",
+   "bytes": 59136,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/28.json",
+   "bytes": 25118,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/29.json",
+   "bytes": 10047,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/3.json",
+   "bytes": 117783,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/30.json",
+   "bytes": 20435,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/31.json",
+   "bytes": 3289,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/32.json",
+   "bytes": 6483,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/33.json",
+   "bytes": 14906,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/34.json",
+   "bytes": 6371,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/35.json",
+   "bytes": 7474,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/36.json",
+   "bytes": 8086,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/37.json",
+   "bytes": 5810,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/38.json",
+   "bytes": 31499,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/39.json",
+   "bytes": 9329,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/4.json",
+   "bytes": 162177,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/40.json",
+   "bytes": 121058,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/41.json",
+   "bytes": 76215,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/42.json",
+   "bytes": 130382,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/43.json",
+   "bytes": 97131,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/44.json",
+   "bytes": 128929,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/45.json",
+   "bytes": 52070,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/46.json",
+   "bytes": 50126,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/47.json",
+   "bytes": 33689,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/48.json",
+   "bytes": 16971,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/49.json",
+   "bytes": 17020,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/5.json",
+   "bytes": 135613,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/50.json",
+   "bytes": 12089,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/51.json",
+   "bytes": 11443,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/52.json",
+   "bytes": 10633,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/53.json",
+   "bytes": 5774,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/54.json",
+   "bytes": 12971,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/55.json",
+   "bytes": 9152,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/56.json",
+   "bytes": 5436,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/57.json",
+   "bytes": 2312,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/58.json",
+   "bytes": 38430,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/59.json",
+   "bytes": 12795,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/6.json",
+   "bytes": 95460,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/60.json",
+   "bytes": 14184,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/61.json",
+   "bytes": 9061,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/62.json",
+   "bytes": 13137,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/63.json",
+   "bytes": 1660,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/64.json",
+   "bytes": 1699,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/65.json",
+   "bytes": 3666,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/66.json",
+   "bytes": 60454,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/7.json",
+   "bytes": 95432,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/8.json",
+   "bytes": 12413,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/biblia/9.json",
+   "bytes": 125505,
+   "pack": "biblia"
+  },
+  {
+   "path": "data/egw/1jt.json",
+   "bytes": 1173603,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/2jt.json",
+   "bytes": 1138827,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/3jt.json",
+   "bytes": 842165,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/afc.json",
+   "bytes": 817540,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/cc.json",
+   "bytes": 187174,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/coes.json",
+   "bytes": 287194,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/cra.json",
+   "bytes": 992651,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/dmj.json",
+   "bytes": 258295,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/dtg.json",
+   "bytes": 1760943,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/ecr.json",
+   "bytes": 974659,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/ed.json",
+   "bytes": 503151,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/eud.json",
+   "bytes": 504366,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/fv.json",
+   "bytes": 701877,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/gc.json",
+   "bytes": 1563902,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/hap.json",
+   "bytes": 943761,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/hc.json",
+   "bytes": 865785,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/hr.json",
+   "bytes": 736928,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/mc.json",
+   "bytes": 764592,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/msj.json",
+   "bytes": 733489,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/msv.json",
+   "bytes": 954653,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/pe.json",
+   "bytes": 631190,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/pp.json",
+   "bytes": 1689127,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/pr.json",
+   "bytes": 1061566,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/pvgm.json",
+   "bytes": 650429,
+   "pack": "egw"
+  },
+  {
+   "path": "data/egw/sc.json",
+   "bytes": 623195,
+   "pack": "egw"
+  },
+  {
+   "path": "data/escuela-sabatica.json",
+   "bytes": 477864,
+   "pack": "escuela"
+  },
+  {
+   "path": "data/himnario-es.json",
+   "bytes": 1112517,
+   "pack": "himnario-es"
+  },
+  {
+   "path": "data/himnario-pt-novo.json",
+   "bytes": 646906,
+   "pack": "himnario-pt"
+  },
+  {
+   "path": "data/himnario-pt.json",
+   "bytes": 829563,
+   "pack": "himnario-pt"
+  },
+  {
+   "path": "data/quizzes.json",
+   "bytes": 39913,
+   "pack": "escuela"
+  },
+  {
+   "path": "data/search-index.json",
+   "bytes": 331546,
+   "pack": "buscar"
+  }
+ ]
+}

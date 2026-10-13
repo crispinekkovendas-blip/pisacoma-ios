@@ -15,7 +15,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const ANDROID = resolve(process.env.ANDROID ?? join(here, "../../pisacoma-android"));
 const APP = resolve(here, "../Pisacoma/Content");
 const FONTS = resolve(here, "../Pisacoma/Fonts");
-const TESTS = resolve(here, "../PisacomaTests/Content");
+const TESTS = resolve(here, "../TestContent");
 
 if (!existsSync(join(ANDROID, "app/src/main/assets/manifest.json"))) {
   console.error(`Android repo not found at ${ANDROID} (set ANDROID=...)`);
