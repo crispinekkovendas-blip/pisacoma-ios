@@ -13,9 +13,6 @@ concurrency:
   group: ios-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  SIM: platform=iOS Simulator,name=iPhone 16,OS=latest
-
 jobs:
   build:
     runs-on: macos-15
@@ -23,8 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+      - name: Xcode and simulator
+        run: |
+          xcodebuild -version
+          # The runner image decides which simulators exist: take the newest available iPhone.
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          echo "simulator: $DEVICE"
+          echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
 
       - name: XcodeGen
         run: |
@@ -73,8 +76,14 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - name: Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+      - name: Xcode and simulator
+        run: |
+          xcodebuild -version
+          # The runner image decides which simulators exist: take the newest available iPhone.
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          echo "simulator: $DEVICE"
+          echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
       - name: XcodeGen
         run: |
           brew install xcodegen >/dev/null
@@ -114,8 +123,14 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app 2>/dev/null || true; xcodebuild -version
+      - name: Xcode and simulator
+        run: |
+          xcodebuild -version
+          # The runner image decides which simulators exist: take the newest available iPhone.
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          echo "simulator: $DEVICE"
+          echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
       - name: XcodeGen
         run: |
           brew install xcodegen >/dev/null
