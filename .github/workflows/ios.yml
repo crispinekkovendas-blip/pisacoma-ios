@@ -24,8 +24,8 @@ jobs:
         run: |
           xcodebuild -version
           # The runner image decides which simulators exist: take the newest available iPhone.
-          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
-          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
           echo "simulator: $DEVICE"
           echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
 
@@ -80,8 +80,8 @@ jobs:
         run: |
           xcodebuild -version
           # The runner image decides which simulators exist: take the newest available iPhone.
-          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
-          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
           echo "simulator: $DEVICE"
           echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
       - name: XcodeGen
@@ -127,8 +127,8 @@ jobs:
         run: |
           xcodebuild -version
           # The runner image decides which simulators exist: take the newest available iPhone.
-          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
-          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$//')
+          DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | grep -vE "SE|Pro|Plus|mini" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
+          [ -n "$DEVICE" ] || DEVICE=$(xcrun simctl list devices available | grep -E "^\s+iPhone" | tail -1 | sed -E 's/^ *(.*) \([0-9A-F-]+\) \(.*$/\1/')
           echo "simulator: $DEVICE"
           echo "SIM=platform=iOS Simulator,name=$DEVICE" >> "$GITHUB_ENV"
       - name: XcodeGen
