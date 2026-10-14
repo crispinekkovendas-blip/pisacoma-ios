@@ -75,7 +75,7 @@ struct FullMenu: View {
             .padding(.bottom, 24)
         }
         .background(LinearGradient(colors: [Tokens.menuTop, Tokens.menuBottom], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
-        .accessibilityIdentifier("menu-panel")
+        .uiId("menu-panel")
     }
 
     private var closeButton: some View {

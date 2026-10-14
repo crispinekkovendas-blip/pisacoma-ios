@@ -23,7 +23,7 @@ struct VideosView: View {
                             if s.query.isEmpty { Text("Buscar videos…").font(Fonts.inter(14)).foregroundStyle(Color.white.opacity(0.5)) }
                             TextField("", text: Binding(get: { model.state.query }, set: { model.query($0) }))
                                 .font(Fonts.inter(14)).foregroundStyle(.white).tint(gold).autocorrectionDisabled()
-                                .accessibilityIdentifier("videos-search")
+                                .uiId("videos-search")
                         }
                         if s.isSearching { IconView(name: "ic_nav_close", color: Color.white.opacity(0.7)).frame(width: 14, height: 14).pressable { model.query("") }.accessibilityLabel("Limpiar búsqueda") }
                     }
@@ -48,7 +48,7 @@ struct VideosView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 24).padding(.vertical, 60)
-                    .accessibilityIdentifier("videos-offline")
+                    .uiId("videos-offline")
                 } else if s.isSearching {
                     let res = s.results
                     HStack(spacing: 6) {
@@ -69,7 +69,7 @@ struct VideosView: View {
             }
         }
         .background(bg)
-        .accessibilityIdentifier("videos-page")
+        .uiId("videos-page")
     }
 }
 
@@ -115,7 +115,7 @@ private struct Hero: View {
             }
             .padding(16)
         }
-        .accessibilityIdentifier("videos-hero")
+        .uiId("videos-hero")
     }
 }
 
@@ -146,7 +146,7 @@ private struct VideoRowView: View {
             }
         }
         .padding(.top, 22)
-        .accessibilityIdentifier("row-\(row.key)")
+        .uiId("row-\(row.key)")
     }
 }
 

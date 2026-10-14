@@ -25,7 +25,7 @@ struct MissingContentNotice: View {
         .padding(18)
         .background(RoundedRectangle(cornerRadius: 16).fill(c.background))
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(c.footerBorder, lineWidth: 1))
-        .accessibilityIdentifier("sin-conexion")
+        .uiId("sin-conexion")
     }
 }
 

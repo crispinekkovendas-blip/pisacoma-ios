@@ -43,7 +43,7 @@ struct BibleView: View {
                         SiteFooter()
                     }
                 }
-                .accessibilityIdentifier("bible-list")
+                .uiId("bible-list")
                 .onChange(of: s.loading) { loading in
                     if !loading {
                         if s.targetVerse > 0 { withAnimation { proxy.scrollTo("verse-\(min(s.targetVerse, s.verses.count))", anchor: .center) } } else { proxy.scrollTo("bible-top", anchor: .top) }
@@ -150,7 +150,7 @@ struct BibleView: View {
             .padding(.horizontal, 20)
             .contentShape(Rectangle())
             .onTapGesture { model.tapVerse(v.n) }
-            .accessibilityIdentifier("verse-\(v.n)")
+            .uiId("verse-\(v.n)")
     }
 
     @ViewBuilder
@@ -223,7 +223,7 @@ struct BibleView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20).padding(.top, 24).padding(.bottom, 24)
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("bible-picker")
+        .uiId("bible-picker")
     }
 
     @ViewBuilder
@@ -251,7 +251,7 @@ struct BibleView: View {
                         if s.notes.isEmpty { Text("Escribe lo que aprendiste, citas favoritas, aplicaciones personales…").font(Fonts.inter(14)).foregroundStyle(Color(hex: 0x9AA792)).padding(.top, 8).padding(.leading, 5) }
                         TextEditor(text: Binding(get: { model.state.notes }, set: { model.notes($0) }))
                             .font(Fonts.inter(14.5)).foregroundStyle(Tokens.ink).tint(Tokens.sage).scrollContentBackground(.hidden).frame(height: 180)
-                            .accessibilityIdentifier("notes-area")
+                            .uiId("notes-area")
                     }
                     .padding(14)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.7)))
@@ -292,6 +292,6 @@ struct BibleView: View {
             .padding(.horizontal, 20).padding(.top, 24).padding(.bottom, 28)
         }
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("bible-drawer")
+        .uiId("bible-drawer")
     }
 }

@@ -78,7 +78,7 @@ struct HomeView: View {
                                     SolItem(label: "\(Zmanim.dayLabel(sab.saturday)), termina", clock: Zmanim.clock12(sab.end))
                                 }
                                 .padding(.bottom, 20)
-                                .accessibilityIdentifier("sabado-times")
+                                .uiId("sabado-times")
                             }
                             VStack(alignment: .leading, spacing: 6) {
                                 ForEach(Array(s.schedule.enumerated()), id: \.offset) { _, it in
@@ -105,7 +105,7 @@ struct HomeView: View {
                         }
                     }
                 }
-                .accessibilityIdentifier("home")
+                .uiId("home")
                 // .escenas-pausa — fixed, bottom right; never tied to the system's reduce-motion setting
                 ZStack {
                     Circle().fill(Color(hex: 0x2A2620, alpha: 0.72))
@@ -141,7 +141,7 @@ struct HomeView: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 48)
         .background(Tokens.olivePale)
-        .accessibilityIdentifier("avisos")
+        .uiId("avisos")
     }
 
     private func creditos(_ photos: [HomePhoto]) -> some View {
@@ -151,7 +151,7 @@ struct HomeView: View {
             t = t + Text(p.title).underline() + Text(", de \(p.author) (") + Text(p.license).underline() + Text(i < photos.count - 1 ? "); " : "). ")
         }
         t = t + Text("Los videos de esas secciones se comparten con la misma licencia.")
-        return t.font(Fonts.dmSans(12.8)).foregroundStyle(dim).lineSpacing(4).accessibilityIdentifier("creditos")
+        return t.font(Fonts.dmSans(12.8)).foregroundStyle(dim).lineSpacing(4).uiId("creditos")
     }
 }
 
@@ -204,7 +204,7 @@ private struct Scene<Content: View>: View {
         .frame(maxWidth: .infinity)
         .frame(height: height)
         .clipped()
-        .accessibilityIdentifier("scene-\(id)")
+        .uiId("scene-\(id)")
     }
 }
 

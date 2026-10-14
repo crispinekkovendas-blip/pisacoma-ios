@@ -72,6 +72,6 @@ struct PlaceholderScreen: View {
             Spacer()
             SiteFooter()
         }
-        .accessibilityIdentifier("screen-\(route.base)")
+        .uiId("screen-\(route.base)")
     }
 }

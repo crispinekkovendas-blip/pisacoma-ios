@@ -48,7 +48,7 @@ struct BibleRefSheet: View {
             .padding(.horizontal, 22).padding(.top, 28).padding(.bottom, 24)
         }
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("bible-sheet")
+        .uiId("bible-sheet")
         .task(id: refKey) {
             var out: [(RefSection, [(Int, String)])] = []
             for s in sections { out.append((s, (try? await app.bible.verses(book, s.chapter, s.from, s.to)) ?? [])) }

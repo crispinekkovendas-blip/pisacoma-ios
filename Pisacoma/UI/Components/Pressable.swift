@@ -12,6 +12,12 @@ struct PressableStyle: ButtonStyle {
 }
 
 extension View {
+    /// A test identifier on a container that keeps its children reachable by XCUITest
+    /// (a bare `accessibilityIdentifier` on a VStack hides the buttons inside it).
+    func uiId(_ id: String) -> some View {
+        accessibilityElement(children: .contain).accessibilityIdentifier(id)
+    }
+
     /// Wraps the view in a Button with the pressable style (Android `Modifier.pressable`).
     func pressable(scale: CGFloat = 0.96, enabled: Bool = true, tag: String? = nil, action: @escaping () -> Void) -> some View {
         Button(action: action) { self }

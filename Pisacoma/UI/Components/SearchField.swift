@@ -25,7 +25,7 @@ struct SearchField: View {
                     .submitLabel(.search)
                     .onSubmit(onSearch)
                     .autocorrectionDisabled()
-                    .accessibilityIdentifier(tag)
+                    .uiId(tag)
             }
             .padding(.vertical, 14)
             if clearable && !value.isEmpty {

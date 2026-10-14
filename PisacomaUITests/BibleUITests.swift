@@ -15,6 +15,8 @@ final class BibleUITests: XCTestCase {
         UI.tap(app, "bible-title")
         UI.waitFor(app, "bible-picker")
         UI.shot(app, "biblia-picker", self)
+        // The picker opens on the current book's chapters; «Cambiar libro» shows the book list.
+        UI.tap(app, "picker-books")
         UI.tap(app, "picker-book-43")
         UI.tap(app, "picker-chapter-1")
         UI.waitFor(app, "verse-1", timeout: 20)

@@ -59,7 +59,7 @@ struct AudioCard: View {
         .padding(.horizontal, 24).padding(.vertical, 18)
         .background(RoundedRectangle(cornerRadius: 18).fill(LinearGradient(colors: [Color(hex: 0xFBF9EF), Color(hex: 0xECE9D6)], startPoint: .top, endPoint: .bottom)))
         .overlay(RoundedRectangle(cornerRadius: 18).stroke(Tokens.sageA(0.20), lineWidth: 1))
-        .accessibilityIdentifier("audio-card")
+        .uiId("audio-card")
     }
 }
 
@@ -78,7 +78,7 @@ struct YouTubeEmbed: View {
             .background(LinearGradient(colors: [Tokens.forest, Tokens.inkDeep], startPoint: .topLeading, endPoint: .bottomTrailing))
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .overlay(RoundedRectangle(cornerRadius: 16).stroke(Tokens.sageA(0.22), lineWidth: 1))
-            .accessibilityIdentifier("youtube-\(videoId)")
+            .uiId("youtube-\(videoId)")
     }
 }
 

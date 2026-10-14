@@ -76,7 +76,7 @@ struct HymnProjectorView: View {
                     let left = location.x < geo.size.width / 3
                     idx = min(max(left ? idx - 1 : idx + 1, 0), total - 1)
                 }
-                .accessibilityIdentifier("projector-stage")
+                .uiId("projector-stage")
             }
 
             HStack {
@@ -95,7 +95,7 @@ struct HymnProjectorView: View {
         .background(
             RadialGradient(colors: [Color(hex: 0x1D2A1F), Color(hex: 0x0C120D)], center: .top, startRadius: 0, endRadius: 1200).ignoresSafeArea()
         )
-        .accessibilityIdentifier("projector")
+        .uiId("projector")
         .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
         .onDisappear { UIApplication.shared.isIdleTimerDisabled = false }
     }

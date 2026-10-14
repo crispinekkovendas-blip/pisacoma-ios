@@ -78,7 +78,7 @@ struct MarkdownText: View {
             if let key = RefLinks.key(from: url) { onRef(key); return .handled }
             return .systemAction
         })
-        .accessibilityIdentifier("lesson-content")
+        .uiId("lesson-content")
     }
 }
 
@@ -98,7 +98,7 @@ struct RefText: View {
             .foregroundStyle(color)
             .tint(Tokens.sage)
             .fixedSize(horizontal: false, vertical: true)
-            .accessibilityIdentifier("md-text")
+            .uiId("md-text")
     }
 
     private var attributed: AttributedString {

@@ -118,7 +118,7 @@ struct VideoPlayerView: View {
             }
         }
         .background(Color.black)
-        .accessibilityIdentifier("video-page")
+        .uiId("video-page")
         .onAppear { reveal() }
         .fullScreenCover(isPresented: $fullscreen) {
             stage.background(Color.black.ignoresSafeArea())
@@ -132,7 +132,7 @@ struct VideoPlayerView: View {
             Color.clear.contentShape(Rectangle()).onTapGesture { if showCtrl { showCtrl = false } else { reveal() } }
             if showCtrl { controls }
         }
-        .accessibilityIdentifier("player")
+        .uiId("player")
     }
 
     private var controls: some View {
@@ -168,10 +168,10 @@ struct VideoPlayerView: View {
                         }
                     )
                     .tint(Tokens.accent)
-                    .accessibilityIdentifier("player-seek")
+                    .uiId("player-seek")
                     HStack(spacing: 6) {
                         IconBtn(icon: player.playing ? "ic_pause" : "ic_play", label: player.playing ? "Pausar" : "Reproducir", tag: "player-toggle-small") { if player.playing { player.pause() } else { player.play() }; reveal() }
-                        Text(VideoCatalog.fmtTime(player.current) + (player.duration > 0 ? " / " + VideoCatalog.fmtTime(player.duration) : "")).font(Fonts.inter(12)).foregroundStyle(.white).accessibilityIdentifier("player-time")
+                        Text(VideoCatalog.fmtTime(player.current) + (player.duration > 0 ? " / " + VideoCatalog.fmtTime(player.duration) : "")).font(Fonts.inter(12)).foregroundStyle(.white).uiId("player-time")
                         Spacer()
                         ZStack(alignment: .bottomTrailing) {
                             Text(speed == 1 ? "1×" : "\(speedLabel(speed))×").font(Fonts.inter(13, weight: .semibold)).foregroundStyle(.white)

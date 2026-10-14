@@ -43,7 +43,7 @@ struct DescargasView: View {
                     Hairline()
                     Spacer().frame(height: 18)
                     if !s.storedText.isEmpty {
-                        Text(s.storedText).font(Fonts.inter(14)).foregroundStyle(Tokens.sageText).accessibilityIdentifier("descargas-guardado")
+                        Text(s.storedText).font(Fonts.inter(14)).foregroundStyle(Tokens.sageText).uiId("descargas-guardado")
                         Spacer().frame(height: 14)
                     }
                     HStack(spacing: 10) {
@@ -64,7 +64,7 @@ struct DescargasView: View {
             .padding(.horizontal, 20)
             SiteFooter()
         }
-        .accessibilityIdentifier("descargas")
+        .uiId("descargas")
         .onAppear { model.refresh() }
     }
 }
@@ -123,7 +123,7 @@ private struct ProgressBlock: View {
                 Pill(label: "Reintentar", filled: true, tag: "descarga-reintentar", action: onRetry).padding(.top, 4)
             }
         }
-        .accessibilityIdentifier("descarga-progreso")
+        .uiId("descarga-progreso")
     }
 }
 

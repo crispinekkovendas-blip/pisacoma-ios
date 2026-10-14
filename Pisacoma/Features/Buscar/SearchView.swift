@@ -35,7 +35,7 @@ struct SearchView: View {
                     Spacer().frame(height: 12)
                     Text(statusText(hasQuery: hasQuery, results: results))
                         .font(Fonts.fraunces(13.5, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText)
-                        .accessibilityIdentifier("search-status")
+                        .uiId("search-status")
                     if !hasQuery && index != nil {
                         Spacer().frame(height: 14)
                         FlowLayout(spacing: 8) {
@@ -91,7 +91,7 @@ struct SearchView: View {
                 SiteFooter()
             }
         }
-        .accessibilityIdentifier("search-page")
+        .uiId("search-page")
         .task {
             do { index = try await app.search.index() } catch let e as ContentMissing { ContentErrors.report(e, app: app) } catch {}
         }

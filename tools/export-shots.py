@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Exports every PNG attachment of an .xcresult bundle (the screenshots the UI tests attach)
-into a folder, named after the attachment name. Usage: export-shots.py ui.xcresult shots"""
+"""Exports every attachment of an .xcresult bundle (the screenshots the UI tests attach, plus
+XCTest's own failure attachments) into a folder with safe file names.
+Usage: export-shots.py ui.xcresult shots"""
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -25,10 +27,11 @@ def get(obj_id=None):
 def walk(node, found):
     if isinstance(node, dict):
         if node.get("_type", {}).get("_name") == "ActionTestAttachment":
-            name = node.get("name", {}).get("_value", "shot")
+            name = node.get("name", {}).get("_value", "attachment")
+            uti = node.get("uniformTypeIdentifier", {}).get("_value", "")
             ref = node.get("payloadRef", {}).get("id", {}).get("_value")
             if ref:
-                found.append((name, ref))
+                found.append((name, uti, ref))
         for v in node.values():
             walk(v, found)
     elif isinstance(node, list):
@@ -36,15 +39,12 @@ def walk(node, found):
             walk(v, found)
 
 
-root = get()
-found = []
-# Follow every summaryRef / testsRef reference to the test summaries where attachments live.
 refs = []
 
 
 def collect_refs(node):
     if isinstance(node, dict):
-        if "id" in node and "_value" in node.get("id", {}) and node.get("_type", {}).get("_name") == "Reference":
+        if node.get("_type", {}).get("_name") == "Reference" and "_value" in node.get("id", {}):
             refs.append(node["id"]["_value"])
         for v in node.values():
             collect_refs(v)
@@ -53,6 +53,8 @@ def collect_refs(node):
             collect_refs(v)
 
 
+root = get()
+found = []
 collect_refs(root)
 seen = set()
 queue = list(refs)
@@ -67,12 +69,25 @@ while queue:
     collect_refs(sub)
     queue.extend(refs[before:])
 
+
+def safe(name):
+    name = re.sub(r"[^A-Za-z0-9._-]+", "_", name).strip("_")
+    return name[:80] or "attachment"
+
+
 count = 0
-for name, ref in found:
-    if not name.lower().endswith(".png"):
-        name += ".png"
-    path = os.path.join(out, name)
+used = set()
+for name, uti, ref in found:
+    ext = ".png" if "png" in uti or name.lower().endswith(".png") else (".txt" if "text" in uti else ".bin")
+    base = safe(name[:-4] if name.lower().endswith(".png") else name)
+    fname = base + ext
+    n = 2
+    while fname in used:
+        fname = f"{base}-{n}{ext}"
+        n += 1
+    used.add(fname)
+    path = os.path.join(out, fname)
     subprocess.run(["xcrun", "xcresulttool", "export", "--legacy", "--path", bundle, "--id", ref, "--type", "file", "--output-path", path], capture_output=True)
     if os.path.exists(path):
         count += 1
-print(f"{count} screenshots → {out}")
+print(f"{count} attachments → {out}")

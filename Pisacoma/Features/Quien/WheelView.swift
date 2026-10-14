@@ -72,7 +72,7 @@ struct WheelView: View {
             SiteFooter()
         }
         .background(bg)
-        .accessibilityIdentifier("quien-page")
+        .uiId("quien-page")
     }
 
     private var wheelMode: some View {
@@ -80,11 +80,11 @@ struct WheelView: View {
             ZStack(alignment: .top) {
                 WheelCanvas(names: names).rotationEffect(.degrees(angle))
                 PointerTriangle().frame(width: 44, height: 52)
-                if names.isEmpty { Text("Agrega nombres").font(Fonts.inter(20, weight: .semibold)).foregroundStyle(Color.white.opacity(0.45)).frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("wheel-empty") }
-                if names.count == 1 { Text(names[0]).font(Fonts.inter(22, weight: .bold)).foregroundStyle(.white).frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("wheel-single") }
+                if names.isEmpty { Text("Agrega nombres").font(Fonts.inter(20, weight: .semibold)).foregroundStyle(Color.white.opacity(0.45)).frame(maxWidth: .infinity, maxHeight: .infinity).uiId("wheel-empty") }
+                if names.count == 1 { Text(names[0]).font(Fonts.inter(22, weight: .bold)).foregroundStyle(.white).frame(maxWidth: .infinity, maxHeight: .infinity).uiId("wheel-single") }
             }
             .aspectRatio(1, contentMode: .fit)
-            .accessibilityIdentifier("wheel-segments-\(names.count)")
+            .uiId("wheel-segments-\(names.count)")
             Spacer().frame(height: 18)
             Text(spinning ? "Girando..." : "GIRAR").font(Fonts.inter(17, weight: .bold)).tracking(2).foregroundStyle(bg)
                 .frame(maxWidth: .infinity).padding(.vertical, 16)
@@ -100,7 +100,7 @@ struct WheelView: View {
                 .frame(maxWidth: .infinity).padding(18)
                 .background(RoundedRectangle(cornerRadius: 14).fill(Color(hex: 0x161B22)))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(gold, lineWidth: 1))
-                .accessibilityIdentifier("wheel-winner")
+                .uiId("wheel-winner")
             }
             Spacer().frame(height: 30)
             HStack {
@@ -113,7 +113,7 @@ struct WheelView: View {
             HStack(spacing: 8) {
                 ZStack(alignment: .leading) {
                     if input.isEmpty { Text("Nombre o lista (separados por coma)").font(Fonts.inter(14)).foregroundStyle(Color.white.opacity(0.4)) }
-                    TextField("", text: $input).font(Fonts.inter(14)).foregroundStyle(.white).tint(gold).submitLabel(.done).onSubmit(addNames).autocorrectionDisabled().accessibilityIdentifier("wheel-input")
+                    TextField("", text: $input).font(Fonts.inter(14)).foregroundStyle(.white).tint(gold).submitLabel(.done).onSubmit(addNames).autocorrectionDisabled().uiId("wheel-input")
                 }
                 .padding(.horizontal, 14).padding(.vertical, 12)
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: 0x161B22)))
@@ -135,7 +135,7 @@ struct WheelView: View {
                     .padding(.leading, 10).padding(.trailing, 6).padding(.vertical, 6)
                     .background(Capsule().fill(Color(hex: 0x161B22)))
                     .overlay(Capsule().stroke(Tokens.border, lineWidth: 1))
-                    .accessibilityIdentifier("wheel-name-\(name)")
+                    .uiId("wheel-name-\(name)")
                 }
             }
             Spacer().frame(height: 14)

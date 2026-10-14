@@ -55,6 +55,6 @@ struct SiteFooter: View {
                 .padding(.top, 32)
                 .padding(.bottom, 48)
         }
-        .accessibilityIdentifier("site-footer")
+        .uiId("site-footer")
     }
 }

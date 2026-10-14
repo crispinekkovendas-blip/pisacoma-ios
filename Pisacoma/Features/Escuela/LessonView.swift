@@ -120,7 +120,7 @@ struct LessonView: View {
                     SiteFooter()
                 }
             }
-            .accessibilityIdentifier("lesson-page")
+            .uiId("lesson-page")
             .sheet(isPresented: Binding(get: { drawer != nil }, set: { if !$0 { drawer = nil } })) {
                 drawerView(s, q: q, lesson: lesson, current: current)
                     .presentationDetents([.large])
@@ -195,7 +195,7 @@ struct LessonView: View {
                             .font(Fonts.inter(14.5)).foregroundStyle(Tokens.ink).tint(Tokens.sage)
                             .scrollContentBackground(.hidden)
                             .frame(height: 180)
-                            .accessibilityIdentifier("notes-area")
+                            .uiId("notes-area")
                     }
                     .padding(14)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.7)))
@@ -268,7 +268,7 @@ struct LessonView: View {
             .padding(.horizontal, 20).padding(.top, 24).padding(.bottom, 28)
         }
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("lesson-drawer")
+        .uiId("lesson-drawer")
     }
 
     /// The text the reference was written as (for the popup title), found back in the day's blocks.

@@ -20,16 +20,24 @@ enum UI {
         app.descendants(matching: .any).matching(identifier: id).firstMatch
     }
 
+    /// Waits for the element; lazy lists only materialise what is on screen, so it also scrolls down a few times.
     @discardableResult
     static func waitFor(_ app: XCUIApplication, _ id: String, timeout: TimeInterval = 15, file: StaticString = #filePath, line: UInt = #line) -> XCUIElement {
         let e = element(app, id)
-        XCTAssertTrue(e.waitForExistence(timeout: timeout), "\(id) did not appear", file: file, line: line)
+        if e.waitForExistence(timeout: timeout) { return e }
+        for _ in 0..<8 {
+            app.swipeUp()
+            if e.waitForExistence(timeout: 1) { return e }
+        }
+        XCTAssertTrue(e.exists, "\(id) did not appear", file: file, line: line)
         return e
     }
 
     static func tap(_ app: XCUIApplication, _ id: String, file: StaticString = #filePath, line: UInt = #line) {
         let e = waitFor(app, id, file: file, line: line)
-        if !e.isHittable { app.swipeUp() }
+        guard e.exists else { return }
+        var tries = 0
+        while !e.isHittable && tries < 6 { app.swipeUp(); tries += 1 }
         e.tap()
     }
 

@@ -21,7 +21,7 @@ struct VisitanosView: View {
                 SiteFooter()
             }
         }
-        .accessibilityIdentifier("visitanos")
+        .uiId("visitanos")
         .task { church = try? await app.church.church() }
     }
 
@@ -62,7 +62,7 @@ struct VisitanosView: View {
             .padding(18)
             .background(RoundedRectangle(cornerRadius: 14).fill(Color(hex: 0xFBF9EF, alpha: 0.7)))
             .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(hex: 0xB8924F, alpha: 0.35), lineWidth: 1))
-            .accessibilityIdentifier("sol")
+            .uiId("sol")
             Spacer().frame(height: 18)
             Text("Recibe los horarios y la puesta del sol de cada sábado en el calendario de tu teléfono, con un aviso antes de cada reunión. Se actualiza solo.")
                 .font(Fonts.inter(14.5)).lineSpacing(5).foregroundStyle(Tokens.ledeInk).fixedSize(horizontal: false, vertical: true)

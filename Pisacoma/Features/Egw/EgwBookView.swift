@@ -63,7 +63,7 @@ struct EgwBookView: View {
                                     Text(meta.title).font(Fonts.fraunces(13, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText).lineLimit(1)
                                 }
                                 Spacer().frame(height: 14)
-                                Text(cur.title).font(Fonts.fraunces(28, weight: .semibold)).tracking(-0.022 * 28).foregroundStyle(Tokens.inkDeep).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("egw-chapter-title")
+                                Text(cur.title).font(Fonts.fraunces(28, weight: .semibold)).tracking(-0.022 * 28).foregroundStyle(Tokens.inkDeep).fixedSize(horizontal: false, vertical: true).uiId("egw-chapter-title")
                                 Spacer().frame(height: 22)
                             }
                             .padding(.horizontal, 20)
@@ -95,7 +95,7 @@ struct EgwBookView: View {
                             SiteFooter()
                         }
                     }
-                    .accessibilityIdentifier("egw-reader")
+                    .uiId("egw-reader")
                     .onChange(of: s.chapter) { _ in proxy.scrollTo("egw-top", anchor: .top) }
                 }
             }
@@ -146,7 +146,7 @@ struct EgwBookView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20).padding(.top, 24).padding(.bottom, 24)
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("egw-toc")
+        .uiId("egw-toc")
     }
 
     @ViewBuilder
@@ -176,7 +176,7 @@ struct EgwBookView: View {
                         if s.notes.isEmpty { Text("Escribe lo que te habló de este capítulo…").font(Fonts.inter(14)).foregroundStyle(Color(hex: 0x9AA792)).padding(.top, 8).padding(.leading, 5) }
                         TextEditor(text: Binding(get: { model.state.notes }, set: { model.notes($0) }))
                             .font(Fonts.inter(14.5)).foregroundStyle(Tokens.ink).tint(Tokens.sage).scrollContentBackground(.hidden).frame(height: 180)
-                            .accessibilityIdentifier("notes-area")
+                            .uiId("notes-area")
                     }
                     .padding(14)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.7)))
@@ -215,6 +215,6 @@ struct EgwBookView: View {
             .padding(.horizontal, 20).padding(.top, 24).padding(.bottom, 28)
         }
         .background(Tokens.cream.ignoresSafeArea())
-        .accessibilityIdentifier("egw-drawer")
+        .uiId("egw-drawer")
     }
 }

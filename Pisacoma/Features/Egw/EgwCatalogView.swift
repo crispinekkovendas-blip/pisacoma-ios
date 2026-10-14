@@ -76,15 +76,15 @@ struct EgwCatalogView: View {
                             }
                             .padding(.horizontal, 20)
                         }
-                        .accessibilityIdentifier("rail-row-\(aisle.roman)")
+                        .uiId("rail-row-\(aisle.roman)")
                         Spacer().frame(height: 40)
                     }
-                    .accessibilityIdentifier("rail-\(aisle.roman)")
+                    .uiId("rail-\(aisle.roman)")
                 }
                 SiteFooter()
             }
         }
-        .accessibilityIdentifier("egw-page")
+        .uiId("egw-page")
         .onAppear { model.refresh() }
     }
 
@@ -141,7 +141,7 @@ private struct Cover: View {
                 if stats.hasProgress {
                     VStack(alignment: .leading, spacing: 5) {
                         Spacer()
-                        Text(isDone ? "Releer" : "Continuar · cap. \(continueAt)").font(Fonts.inter(10, weight: .semibold)).foregroundStyle(Tokens.cream).accessibilityIdentifier("continue-\(book.slug)")
+                        Text(isDone ? "Releer" : "Continuar · cap. \(continueAt)").font(Fonts.inter(10, weight: .semibold)).foregroundStyle(Tokens.cream).uiId("continue-\(book.slug)")
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
                                 Capsule().fill(Color.white.opacity(0.33))

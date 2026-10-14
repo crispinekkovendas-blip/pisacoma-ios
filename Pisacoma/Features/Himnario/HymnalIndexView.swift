@@ -24,7 +24,7 @@ struct HymnalIndexView: View {
                         if !s.query.isEmpty { Text("para «\(s.query)»").font(Fonts.fraunces(11, weight: .regular, italic: true)).foregroundStyle(Tokens.sage) }
                     }
                     .padding(.horizontal, 24).padding(.top, 6).padding(.bottom, 18)
-                    .accessibilityIdentifier("hymn-count")
+                    .uiId("hymn-count")
                     OrnamentRule().padding(.horizontal, 20)
                     ForEach(Array(filtered.enumerated()), id: \.element.number) { i, h in
                         let isBreak = !s.isSearching && (h.number - 1) % HymnalUi.rangeSize == 0 && h.number > 1
@@ -36,7 +36,7 @@ struct HymnalIndexView: View {
                     SiteFooter()
                 }
             }
-            .accessibilityIdentifier("hymn-list")
+            .uiId("hymn-list")
         }
         .onAppear { model.refreshRecent() }
     }

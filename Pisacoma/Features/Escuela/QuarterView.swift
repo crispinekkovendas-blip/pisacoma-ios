@@ -105,7 +105,7 @@ struct QuarterView: View {
                                 HStack(spacing: 4) {
                                     ForEach(0..<l.days.count, id: \.self) { d in
                                         Circle().fill(d < done ? c : Tokens.sageA(0.18)).frame(width: 6, height: 6)
-                                            .accessibilityIdentifier(d < done ? "lesson-\(l.number)-dots-done-\(d + 1)" : "lesson-\(l.number)-dot-\(d)")
+                                            .uiId(d < done ? "lesson-\(l.number)-dots-done-\(d + 1)" : "lesson-\(l.number)-dot-\(d)")
                                     }
                                 }
                                 .padding(.top, 2)
@@ -124,7 +124,7 @@ struct QuarterView: View {
                 }
             }
         }
-        .accessibilityIdentifier("lesson-list")
+        .uiId("lesson-list")
         .onAppear { model.refresh() }
     }
 }

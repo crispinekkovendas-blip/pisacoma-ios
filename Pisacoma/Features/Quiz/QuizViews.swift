@@ -140,7 +140,7 @@ struct QuizIndexView: View {
             }
         }
         .background(bg)
-        .accessibilityIdentifier("quiz-index")
+        .uiId("quiz-index")
     }
 }
 
@@ -203,7 +203,7 @@ struct QuizView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(alignment: .lastTextBaseline, spacing: 4) {
                             Text(String(st.committedCount)).font(Fonts.inter(15, weight: .bold)).foregroundStyle(goldLight)
-                            Text("/ \(total) confirmadas").font(Fonts.inter(13)).foregroundStyle(Color.white.opacity(0.55)).accessibilityIdentifier("quiz-progress")
+                            Text("/ \(total) confirmadas").font(Fonts.inter(13)).foregroundStyle(Color.white.opacity(0.55)).uiId("quiz-progress")
                         }
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
@@ -224,7 +224,7 @@ struct QuizView: View {
                             SiteFooter()
                         }
                     }
-                    .accessibilityIdentifier("quiz-page")
+                    .uiId("quiz-page")
                 }
                 .background(bg)
                 if let p = st.pending, let q = pack.questions.first(where: { $0.n == p.qN }), let opt = q.options.first(where: { $0.letter == p.letter }) {
@@ -287,7 +287,7 @@ struct QuizView: View {
             }
             if locked != nil && !st.submitted {
                 Spacer().frame(height: 6)
-                Text("RESPUESTA CONFIRMADA").font(Fonts.inter(12.5, weight: .semibold)).tracking(1).foregroundStyle(Color(hex: 0xE8B85A, alpha: 0.85)).accessibilityIdentifier("q\(q.n)-locked")
+                Text("RESPUESTA CONFIRMADA").font(Fonts.inter(12.5, weight: .semibold)).tracking(1).foregroundStyle(Color(hex: 0xE8B85A, alpha: 0.85)).uiId("q\(q.n)-locked")
             }
             if st.submitted, let ex = q.explain {
                 Spacer().frame(height: 16)
@@ -356,7 +356,7 @@ struct QuizView: View {
                 .padding(.horizontal, 24).padding(.vertical, 38)
                 .background(RoundedRectangle(cornerRadius: 18).fill(LinearGradient(colors: [card, Color(hex: 0x11151C)], startPoint: .top, endPoint: .bottom)))
                 .overlay(RoundedRectangle(cornerRadius: 18).stroke(lineColor, lineWidth: 1))
-                .accessibilityIdentifier("quiz-results")
+                .uiId("quiz-results")
             }
         }
         .frame(maxWidth: .infinity)
@@ -395,7 +395,7 @@ struct QuizView: View {
             .background(RoundedRectangle(cornerRadius: 16).fill(LinearGradient(colors: [card, Color(hex: 0x11151C)], startPoint: .top, endPoint: .bottom)))
             .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: 0x2D343D), lineWidth: 1))
             .padding(24)
-            .accessibilityIdentifier("quiz-confirm")
+            .uiId("quiz-confirm")
         }
     }
 }
