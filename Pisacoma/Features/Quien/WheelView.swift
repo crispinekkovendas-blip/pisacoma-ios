@@ -80,8 +80,8 @@ struct WheelView: View {
             ZStack(alignment: .top) {
                 WheelCanvas(names: names).rotationEffect(.degrees(angle))
                 PointerTriangle().frame(width: 44, height: 52)
-                if names.isEmpty { Text("Agrega nombres").font(Fonts.inter(20, weight: .semibold)).foregroundStyle(Color.white.opacity(0.45)).frame(maxWidth: .infinity, maxHeight: .infinity).uiId("wheel-empty") }
-                if names.count == 1 { Text(names[0]).font(Fonts.inter(22, weight: .bold)).foregroundStyle(.white).frame(maxWidth: .infinity, maxHeight: .infinity).uiId("wheel-single") }
+                if names.isEmpty { Text("Agrega nombres").font(Fonts.inter(20, weight: .semibold)).foregroundStyle(Color.white.opacity(0.45)).frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("wheel-empty") }
+                if names.count == 1 { Text(names[0]).font(Fonts.inter(22, weight: .bold)).foregroundStyle(.white).frame(maxWidth: .infinity, maxHeight: .infinity).accessibilityIdentifier("wheel-single") }
             }
             .aspectRatio(1, contentMode: .fit)
             .uiId("wheel-segments-\(names.count)")

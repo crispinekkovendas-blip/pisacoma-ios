@@ -41,7 +41,7 @@ struct HymnView: View {
                 }
                 .padding(.top, 36).padding(.bottom, 22)
                 HStack(spacing: 18) {
-                    Text(String(h.number)).font(Fonts.fraunces(48, weight: .heavy, italic: true)).tracking(-0.04 * 48).foregroundStyle(Ochre.numeral).uiId("hymn-number")
+                    Text(String(h.number)).font(Fonts.fraunces(48, weight: .heavy, italic: true)).tracking(-0.04 * 48).foregroundStyle(Ochre.numeral).accessibilityIdentifier("hymn-number")
                     VStack(alignment: .leading, spacing: 6) {
                         Text(h.title).font(Fonts.fraunces(24, weight: .semibold)).tracking(-0.022 * 24).foregroundStyle(Tokens.inkDeep).fixedSize(horizontal: false, vertical: true)
                         if let ref = h.bibleReference { Text(ref).font(Fonts.fraunces(15.2, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText) }

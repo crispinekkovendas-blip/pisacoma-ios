@@ -171,7 +171,7 @@ struct VideoPlayerView: View {
                     .uiId("player-seek")
                     HStack(spacing: 6) {
                         IconBtn(icon: player.playing ? "ic_pause" : "ic_play", label: player.playing ? "Pausar" : "Reproducir", tag: "player-toggle-small") { if player.playing { player.pause() } else { player.play() }; reveal() }
-                        Text(VideoCatalog.fmtTime(player.current) + (player.duration > 0 ? " / " + VideoCatalog.fmtTime(player.duration) : "")).font(Fonts.inter(12)).foregroundStyle(.white).uiId("player-time")
+                        Text(VideoCatalog.fmtTime(player.current) + (player.duration > 0 ? " / " + VideoCatalog.fmtTime(player.duration) : "")).font(Fonts.inter(12)).foregroundStyle(.white).accessibilityIdentifier("player-time")
                         Spacer()
                         ZStack(alignment: .bottomTrailing) {
                             Text(speed == 1 ? "1×" : "\(speedLabel(speed))×").font(Fonts.inter(13, weight: .semibold)).foregroundStyle(.white)

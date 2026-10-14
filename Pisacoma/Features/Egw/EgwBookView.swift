@@ -63,7 +63,7 @@ struct EgwBookView: View {
                                     Text(meta.title).font(Fonts.fraunces(13, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText).lineLimit(1)
                                 }
                                 Spacer().frame(height: 14)
-                                Text(cur.title).font(Fonts.fraunces(28, weight: .semibold)).tracking(-0.022 * 28).foregroundStyle(Tokens.inkDeep).fixedSize(horizontal: false, vertical: true).uiId("egw-chapter-title")
+                                Text(cur.title).font(Fonts.fraunces(28, weight: .semibold)).tracking(-0.022 * 28).foregroundStyle(Tokens.inkDeep).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("egw-chapter-title")
                                 Spacer().frame(height: 22)
                             }
                             .padding(.horizontal, 20)

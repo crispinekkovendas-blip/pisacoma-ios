@@ -43,7 +43,7 @@ struct DescargasView: View {
                     Hairline()
                     Spacer().frame(height: 18)
                     if !s.storedText.isEmpty {
-                        Text(s.storedText).font(Fonts.inter(14)).foregroundStyle(Tokens.sageText).uiId("descargas-guardado")
+                        Text(s.storedText).font(Fonts.inter(14)).foregroundStyle(Tokens.sageText).accessibilityIdentifier("descargas-guardado")
                         Spacer().frame(height: 14)
                     }
                     HStack(spacing: 10) {

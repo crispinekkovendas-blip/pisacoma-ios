@@ -24,7 +24,7 @@ struct QuarterView: View {
                         Lede(String((q.description ?? "").prefix(240)) + "…")
                         Spacer().frame(height: 28)
                         DashedRule()
-                        HStack(alignment: .lastTextBaseline, spacing: 18) {
+                        FlowLayout(spacing: 18) {
                             MetaItem(num: String(q.lessons.count), label: "lecciones")
                             MetaSep()
                             MetaItem(num: String(q.lessons.count * 7), label: "días")
@@ -135,8 +135,8 @@ private struct MetaItem: View {
     var small = false
     var body: some View {
         HStack(alignment: .lastTextBaseline, spacing: 8) {
-            Text(num).font(Fonts.fraunces(small ? 16 : 25.6, weight: .bold, italic: !small)).tracking(-0.3).foregroundStyle(Tokens.inkDeep)
-            EyebrowLine(label, color: Tokens.sageText, size: 11, tracking: 1.6)
+            Text(num).font(Fonts.fraunces(small ? 16 : 25.6, weight: .bold, italic: !small)).tracking(-0.3).foregroundStyle(Tokens.inkDeep).fixedSize()
+            EyebrowLine(label, color: Tokens.sageText, size: 11, tracking: 1.6).fixedSize()
         }
     }
 }

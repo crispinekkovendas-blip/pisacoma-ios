@@ -27,7 +27,7 @@ struct EgwCatalogView: View {
                     Spacer().frame(height: 22)
                     Lede("Un curso por volumen, organizados como una pequeña biblioteca: cada pasillo agrupa los libros por su intención original — clásicos pioneros, devocionales, vida práctica, y los tiempos finales.")
                     Spacer().frame(height: 26)
-                    HStack(alignment: .lastTextBaseline, spacing: 18) {
+                    FlowLayout(spacing: 18) {
                         Meta(num: String(s.books.count), label: "volúmenes")
                         Rectangle().fill(Tokens.sageA(0.2)).frame(width: 1, height: 28)
                         Meta(num: Self.thousands(s.totalChapters), label: "capítulos")
@@ -103,8 +103,8 @@ private struct Meta: View {
     var small = false
     var body: some View {
         HStack(alignment: .lastTextBaseline, spacing: 8) {
-            Text(num).font(Fonts.fraunces(small ? 16 : 25.6, weight: .bold, italic: true)).foregroundStyle(Tokens.inkDeep)
-            EyebrowLine(label, color: Tokens.sageText, size: 11, tracking: 1.6)
+            Text(num).font(Fonts.fraunces(small ? 16 : 25.6, weight: .bold, italic: true)).foregroundStyle(Tokens.inkDeep).fixedSize()
+            EyebrowLine(label, color: Tokens.sageText, size: 11, tracking: 1.6).fixedSize()
         }
     }
 }
@@ -141,7 +141,7 @@ private struct Cover: View {
                 if stats.hasProgress {
                     VStack(alignment: .leading, spacing: 5) {
                         Spacer()
-                        Text(isDone ? "Releer" : "Continuar · cap. \(continueAt)").font(Fonts.inter(10, weight: .semibold)).foregroundStyle(Tokens.cream).uiId("continue-\(book.slug)")
+                        Text(isDone ? "Releer" : "Continuar · cap. \(continueAt)").font(Fonts.inter(10, weight: .semibold)).foregroundStyle(Tokens.cream).accessibilityIdentifier("continue-\(book.slug)")
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
                                 Capsule().fill(Color.white.opacity(0.33))

@@ -203,7 +203,7 @@ struct QuizView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(alignment: .lastTextBaseline, spacing: 4) {
                             Text(String(st.committedCount)).font(Fonts.inter(15, weight: .bold)).foregroundStyle(goldLight)
-                            Text("/ \(total) confirmadas").font(Fonts.inter(13)).foregroundStyle(Color.white.opacity(0.55)).uiId("quiz-progress")
+                            Text("/ \(total) confirmadas").font(Fonts.inter(13)).foregroundStyle(Color.white.opacity(0.55)).accessibilityIdentifier("quiz-progress")
                         }
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
@@ -287,7 +287,7 @@ struct QuizView: View {
             }
             if locked != nil && !st.submitted {
                 Spacer().frame(height: 6)
-                Text("RESPUESTA CONFIRMADA").font(Fonts.inter(12.5, weight: .semibold)).tracking(1).foregroundStyle(Color(hex: 0xE8B85A, alpha: 0.85)).uiId("q\(q.n)-locked")
+                Text("RESPUESTA CONFIRMADA").font(Fonts.inter(12.5, weight: .semibold)).tracking(1).foregroundStyle(Color(hex: 0xE8B85A, alpha: 0.85)).accessibilityIdentifier("q\(q.n)-locked")
             }
             if st.submitted, let ex = q.explain {
                 Spacer().frame(height: 16)

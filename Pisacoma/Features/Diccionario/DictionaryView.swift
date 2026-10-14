@@ -33,11 +33,11 @@ struct DictionaryView: View {
                     Spacer().frame(height: 22)
                 }
                 if loading {
-                    Text("Buscando «\(searched)»…").font(Fonts.fraunces(14, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText).uiId("dict-loading")
+                    Text("Buscando «\(searched)»…").font(Fonts.fraunces(14, weight: .regular, italic: true)).foregroundStyle(Tokens.sageText).accessibilityIdentifier("dict-loading")
                 } else if let error {
-                    Text(error).font(Fonts.fraunces(15, weight: .regular, italic: true)).lineSpacing(5).foregroundStyle(Color(hex: 0x8A3A2A)).uiId("dict-error")
+                    Text(error).font(Fonts.fraunces(15, weight: .regular, italic: true)).lineSpacing(5).foregroundStyle(Color(hex: 0x8A3A2A)).accessibilityIdentifier("dict-error")
                 } else if let sections {
-                    Text(searched).font(Fonts.fraunces(34, weight: .semibold)).foregroundStyle(Tokens.inkDeep).uiId("dict-word")
+                    Text(searched).font(Fonts.fraunces(34, weight: .semibold)).foregroundStyle(Tokens.inkDeep).accessibilityIdentifier("dict-word")
                     Spacer().frame(height: 14)
                     ForEach(Array(sections.enumerated()), id: \.offset) { _, sec in
                         EyebrowLine(sec.partOfSpeech, color: Ochre.label, size: 10.5)
