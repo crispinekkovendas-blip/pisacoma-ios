@@ -4,7 +4,7 @@ import SwiftUI
 // quiz-view.css / quiz index.tsx tokens
 private let bg = Tokens.bg
 private let card = Tokens.bg2
-private let border = Tokens.border
+private let lineColor = Tokens.border
 private let gold = Tokens.accent
 private let goldLight = Tokens.accentLight
 private let textColor = Color(hex: 0xE6E9EE)
@@ -113,7 +113,7 @@ struct QuizIndexView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24).padding(.vertical, 48)
                 .background(heroGradient)
-                Rectangle().fill(border).frame(height: 1)
+                Rectangle().fill(lineColor).frame(height: 1)
                 Spacer().frame(height: 28)
                 ForEach(model.packs) { q in
                     VStack(alignment: .leading, spacing: 10) {
@@ -131,7 +131,7 @@ struct QuizIndexView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(22)
                     .background(RoundedRectangle(cornerRadius: 16).fill(card))
-                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(border, lineWidth: 1))
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(lineColor, lineWidth: 1))
                     .pressable(scale: 0.985, tag: "quiz-card-\(q.slug)") { router.go(.quizPack(slug: q.slug)) }
                     .padding(.horizontal, 20).padding(.bottom, 14)
                 }
@@ -141,6 +141,42 @@ struct QuizIndexView: View {
         }
         .background(bg)
         .accessibilityIdentifier("quiz-index")
+    }
+}
+
+/// One answer row of a question card: selected / confirmed / right / wrong states, as the site's `.opt`.
+private struct QuizOptionRow: View {
+    let q: QuizQuestion
+    let opt: QuizOption
+    let selected: Bool
+    let submitted: Bool
+    let disabled: Bool
+    let onPick: () -> Void
+
+    var body: some View {
+        let showRight = submitted && opt.letter == q.correct
+        let showWrong = submitted && selected && opt.letter != q.correct
+        let bgc: Color = showRight ? Color(hex: 0x2EA043, alpha: 0.1) : (showWrong ? Color(hex: 0xDA3633, alpha: 0.1) : (selected ? Color(hex: 0xC9963B, alpha: 0.1) : bg))
+        let bd: Color = showRight ? Color(hex: 0x2EA043) : (showWrong ? Color(hex: 0xDA3633) : (selected ? gold : lineColor))
+        let fg: Color = showRight ? Color(hex: 0xC8E6CD) : (showWrong ? Color(hex: 0xF0C4C2) : textColor)
+        HStack(spacing: 13) {
+            Text(opt.letter)
+                .font(Fonts.inter(13.5, weight: .semibold))
+                .foregroundStyle(Color.white.opacity(0.75))
+                .frame(width: 28, height: 28)
+                .background(RoundedRectangle(cornerRadius: 7).fill(Color.white.opacity(0.05)))
+                .overlay(RoundedRectangle(cornerRadius: 7).stroke(lineColor, lineWidth: 1))
+            Text(opt.text).font(Fonts.inter(15)).lineSpacing(3).foregroundStyle(fg).fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+            if showRight { Text("✓").font(.system(size: 16)).foregroundStyle(Color(hex: 0x2EA043)) }
+            if showWrong { Text("✕").font(.system(size: 16)).foregroundStyle(Color(hex: 0xDA3633)) }
+        }
+        .padding(.horizontal, 16).padding(.vertical, 13)
+        .background(RoundedRectangle(cornerRadius: 10).fill(bgc))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(bd, lineWidth: 1))
+        .opacity(disabled && !selected && !showRight ? 0.6 : 1)
+        .pressable(scale: 0.99, enabled: !disabled, tag: "q\(q.n)-\(opt.letter)", action: onPick)
+        .padding(.bottom, 8)
     }
 }
 
@@ -179,7 +215,7 @@ struct QuizView: View {
                     }
                     .padding(.horizontal, 20).padding(.vertical, 10)
                     .background(Color(hex: 0x0D1117, alpha: 0.92))
-                    Rectangle().fill(border).frame(height: 1)
+                    Rectangle().fill(lineColor).frame(height: 1)
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 0) {
                             hero(pack)
@@ -219,12 +255,12 @@ struct QuizView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24).padding(.vertical, 20)
                 .background(RoundedRectangle(cornerRadius: 14).fill(Color.white.opacity(0.03)))
-                .overlay(RoundedRectangle(cornerRadius: 14).stroke(border, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 14).stroke(lineColor, lineWidth: 1))
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 24).padding(.vertical, 40)
             .background(heroGradient)
-            Rectangle().fill(border).frame(height: 1)
+            Rectangle().fill(lineColor).frame(height: 1)
             Spacer().frame(height: 24)
         }
     }
@@ -242,26 +278,12 @@ struct QuizView: View {
             }
             Spacer().frame(height: 16)
             ForEach(q.options, id: \.letter) { opt in
-                let selected = chosen == opt.letter
-                let showRight = st.submitted && opt.letter == q.correct
-                let showWrong = st.submitted && selected && opt.letter != q.correct
-                let disabled = locked != nil || st.submitted
-                let bgc: Color = showRight ? Color(hex: 0x2EA043, alpha: 0.1) : (showWrong ? Color(hex: 0xDA3633, alpha: 0.1) : (selected ? Color(hex: 0xC9963B, alpha: 0.1) : bg))
-                let bd: Color = showRight ? Color(hex: 0x2EA043) : (showWrong ? Color(hex: 0xDA3633) : (selected ? gold : border))
-                let fg: Color = showRight ? Color(hex: 0xC8E6CD) : (showWrong ? Color(hex: 0xF0C4C2) : textColor)
-                HStack(spacing: 13) {
-                    Text(opt.letter).font(Fonts.inter(13.5, weight: .semibold)).foregroundStyle(Color.white.opacity(0.75)).frame(width: 28, height: 28).background(RoundedRectangle(cornerRadius: 7).fill(Color.white.opacity(0.05))).overlay(RoundedRectangle(cornerRadius: 7).stroke(border, lineWidth: 1))
-                    Text(opt.text).font(Fonts.inter(15)).lineSpacing(3).foregroundStyle(fg).fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: 0)
-                    if showRight { Text("✓").font(.system(size: 16)).foregroundStyle(Color(hex: 0x2EA043)) }
-                    if showWrong { Text("✕").font(.system(size: 16)).foregroundStyle(Color(hex: 0xDA3633)) }
-                }
-                .padding(.horizontal, 16).padding(.vertical, 13)
-                .background(RoundedRectangle(cornerRadius: 10).fill(bgc))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(bd, lineWidth: 1))
-                .opacity(disabled && !selected && !showRight ? 0.6 : 1)
-                .pressable(scale: 0.99, enabled: !disabled, tag: "q\(q.n)-\(opt.letter)") { model.pick(q.n, opt.letter) }
-                .padding(.bottom, 8)
+                QuizOptionRow(
+                    q: q, opt: opt,
+                    selected: chosen == opt.letter,
+                    submitted: st.submitted,
+                    disabled: locked != nil || st.submitted
+                ) { model.pick(q.n, opt.letter) }
             }
             if locked != nil && !st.submitted {
                 Spacer().frame(height: 6)
@@ -281,7 +303,7 @@ struct QuizView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20).padding(.top, 22).padding(.bottom, 20)
         .background(RoundedRectangle(cornerRadius: 16).fill(card))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(lineColor, lineWidth: 1))
         .padding(.horizontal, 20).padding(.bottom, 16)
     }
 
@@ -333,7 +355,7 @@ struct QuizView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 24).padding(.vertical, 38)
                 .background(RoundedRectangle(cornerRadius: 18).fill(LinearGradient(colors: [card, Color(hex: 0x11151C)], startPoint: .top, endPoint: .bottom)))
-                .overlay(RoundedRectangle(cornerRadius: 18).stroke(border, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 18).stroke(lineColor, lineWidth: 1))
                 .accessibilityIdentifier("quiz-results")
             }
         }
