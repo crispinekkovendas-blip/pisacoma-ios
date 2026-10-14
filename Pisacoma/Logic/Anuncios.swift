@@ -48,20 +48,21 @@ enum Anuncios {
         var row: [String] = []
         var field = ""
         var quoted = false
-        let chars = Array(text)
+        // Unicode scalars, not Characters: Swift folds "\r\n" into one grapheme cluster.
+        let chars = Array(text.unicodeScalars)
         var i = 0
         while i < chars.count {
             let c = chars[i]
             if quoted {
                 if c == "\"" && i + 1 < chars.count && chars[i + 1] == "\"" { field.append("\""); i += 1 }
                 else if c == "\"" { quoted = false }
-                else { field.append(c) }
+                else { field.unicodeScalars.append(c) }
             } else if c == "\"" { quoted = true }
             else if c == "," { row.append(field); field = "" }
             else if c == "\n" || c == "\r" {
                 if c == "\r" && i + 1 < chars.count && chars[i + 1] == "\n" { i += 1 }
                 row.append(field); field = ""; rows.append(row); row = []
-            } else { field.append(c) }
+            } else { field.unicodeScalars.append(c) }
             i += 1
         }
         if !field.isEmpty || !row.isEmpty { row.append(field); rows.append(row) }
