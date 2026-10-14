@@ -30,15 +30,18 @@ final class ContentStoreTests: XCTestCase {
     }
 
     func testReadsBundledFirst() async throws {
-        XCTAssertEqual(try await store().readText("data/bundled.json"), "{\"b\":1}")
+        let v1 = try await store().readText("data/bundled.json")
+        XCTAssertEqual(v1, "{\"b\":1}")
         XCTAssertEqual(fetched, 0)
     }
 
     func testFetchesAndStoresOnUse() async throws {
         let s = store()
-        XCTAssertEqual(try await s.readText("data/x.json"), "{\"x\":1}")
+        let v2 = try await s.readText("data/x.json")
+        XCTAssertEqual(v2, "{\"x\":1}")
         XCTAssertTrue(s.isStored("data/x.json"))
-        XCTAssertEqual(try await s.readText("data/x.json"), "{\"x\":1}")
+        let v3 = try await s.readText("data/x.json")
+        XCTAssertEqual(v3, "{\"x\":1}")
         XCTAssertEqual(fetched, 1)
     }
 
@@ -74,7 +77,8 @@ final class ContentStoreTests: XCTestCase {
         try FileManager.default.createDirectory(at: f.deletingLastPathComponent(), withIntermediateDirectories: true)
         try "old".write(to: f, atomically: true, encoding: .utf8)
         XCTAssertFalse(s.isStored("data/x.json"))
-        XCTAssertEqual(try await s.readText("data/x.json"), "{\"x\":1}")
+        let v4 = try await s.readText("data/x.json")
+        XCTAssertEqual(v4, "{\"x\":1}")
         XCTAssertEqual(fetched, 1)
         XCTAssertTrue(s.isStored("data/x.json"))
     }
@@ -83,7 +87,8 @@ final class ContentStoreTests: XCTestCase {
         let s = store()
         _ = try await s.read("data/x.json")
         offline = true
-        XCTAssertEqual(try await s.readText("data/x.json"), "{\"x\":1}")
+        let v5 = try await s.readText("data/x.json")
+        XCTAssertEqual(v5, "{\"x\":1}")
     }
 
     func testExistsUsesManifestNotNetwork() async throws {

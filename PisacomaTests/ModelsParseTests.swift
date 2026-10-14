@@ -36,8 +36,10 @@ final class ModelsParseTests: XCTestCase {
 
     func testHymnByNumberAndChorusOrder() async throws {
         let repo = HymnRepository(assets)
-        XCTAssertEqual(try await repo.get(.es, 1)?.title, "Cantad Alegres al señor")
-        XCTAssertNil(try await repo.get(.es, 9999))
+        let v1 = try await repo.get(.es, 1)?.title
+        XCTAssertEqual(v1, "Cantad Alegres al señor")
+        let v2 = try await repo.get(.es, 9999)
+        XCTAssertNil(v2)
         // A hymn with a chorus prints stanza 1, the chorus, then the rest.
         let withChorus = try await repo.all(.es).first { h in h.blocks.contains { $0.isChorus } && h.blocks.count > 2 }!
         XCTAssertEqual(withChorus.blocks[0].stanzaNumber, 1)
@@ -45,7 +47,8 @@ final class ModelsParseTests: XCTestCase {
     }
 
     func testFeaturedHymns() async throws {
-        XCTAssertEqual(try await HymnRepository(assets).featured(.es), [1, 61, 115, 164, 303, 307, 400, 516])
+        let v3 = try await HymnRepository(assets).featured(.es)
+        XCTAssertEqual(v3, [1, 61, 115, 164, 303, 307, 400, 516])
     }
 
     func testBibleBooksAndGenesis() async throws {
@@ -66,14 +69,18 @@ final class ModelsParseTests: XCTestCase {
 
     func testEgwCatalogueAndBook() async throws {
         let repo = EgwRepository(assets)
-        XCTAssertEqual(try await repo.catalogue().count, 25)
-        XCTAssertEqual(try await repo.rails().count, 4)
-        XCTAssertEqual(try await repo.catalogue()[0].slug, "cc")
+        let v4 = try await repo.catalogue().count
+        XCTAssertEqual(v4, 25)
+        let v5 = try await repo.rails().count
+        XCTAssertEqual(v5, 4)
+        let v6 = try await repo.catalogue()[0].slug
+        XCTAssertEqual(v6, "cc")
         let cc = try await repo.book("cc")!
         XCTAssertEqual(cc.chapters[0].title, "El camino a Cristo")
         XCTAssertEqual(cc.chapters[1].title, "Capítulo 1— Amor supremo")
         XCTAssertTrue(cc.chapters.count > 10)
-        XCTAssertNil(try await repo.book("nope"))
+        let v7 = try await repo.book("nope")
+        XCTAssertNil(v7)
     }
 
     func testQuarterlyHas13LessonsOf7Days() async throws {
@@ -90,7 +97,8 @@ final class ModelsParseTests: XCTestCase {
         XCTAssertTrue(packs.count >= 5)
         XCTAssertTrue(packs.allSatisfy { $0.questions.count >= 5 })
         XCTAssertEqual(packs[0].lessonNumber, 13)
-        XCTAssertNotNil(try await repo.pack(packs[0].slug))
+        let v8 = try await repo.pack(packs[0].slug)
+        XCTAssertNotNil(v8)
     }
 
     func testChurchFacts() async throws {

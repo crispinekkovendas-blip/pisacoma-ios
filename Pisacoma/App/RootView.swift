@@ -40,6 +40,12 @@ struct ScreenFor: View {
 
     var body: some View {
         switch route {
+        case .home: HomeView()
+        case .visitanos: VisitanosView()
+        case .himnario: HymnalIndexView()
+        case let .hymn(variant, number): HymnView(variant: variant, number: number)
+        case .escuela: QuarterView()
+        case let .leccion(number, day): LessonView(number: number, day: day)
         case .descargas: DescargasView(bare: false, onContinue: {})
         default: PlaceholderScreen(route: route)
         }
